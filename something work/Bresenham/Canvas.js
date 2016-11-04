@@ -134,14 +134,14 @@ var exDic = {
 var angleSelectorEvent = {
 	tip : ['选择起始角度','选择跨越角度大小','选择完成'],
 	first : true,
-    mousemove : function(){
+    mousemove : function(evn){
         if (div_angle.method == 0) {
-            var deg = exDic.calcAngle(event.clientX,event.clientY);
+            var deg = exDic.calcAngle(evn.clientX,evn.clientY);
             div_angle.rotate += deg;
             div_angle.rotate %= 360;
             angleSelector.ele.style.transform = "rotate(" + div_angle.rotate + "deg)";
         } else if (div_angle.method == 1) {
-            var deg = exDic.calcAngle(event.clientX,event.clientY);
+            var deg = exDic.calcAngle(evn.clientX,evn.clientY);
             div_angle.deg -= deg / 360;
             while (div_angle.deg < 0) {
                 div_angle.deg += 1;
@@ -169,15 +169,15 @@ var angleSelectorEvent = {
 			TipAlert.apply(angleSelectorEvent.tip[div_angle.method],2,['ti']);
 		}
     },
-    endEvent : function(){
+    endEvent : function(evn){
         var angle = exDic.calcFTAngle();
         console.log("rotate : " + div_angle.rotate + "\tdeg : " + div_angle.deg);
         console.log("beginDeg : " + angle[0] + "\tendDeg : " + angle[1]);
         exDic.enFn(angle[0],angle[1]);
         div_angle.method = 2;
         div_angle.style.visibility = "hidden";
-        div_angle.loc.x = event.clientX;
-        div_angle.loc.y = event.clientY;
+        div_angle.loc.x = evn.clientX;
+        div_angle.loc.y = evn.clientY;
         div_angle.rotate = 0;
         div_angle.deg = 0.8;
         div_angle.style.transform = "rotate(0deg)";
@@ -576,21 +576,21 @@ function onload_(){
         };
         //画线鼠标事件
         var drawLineEvent = {
-            onmousedownLine: function() {
-                //console.log(event.clientX + "_" + event.clientY);
+            onmousedownLine: function(evn) {
+                //console.log(evn.clientX + "_" + evn.clientY);
                 draw = true;
-                lineDic.start.x = parseInt(event.clientX / lit);
-                lineDic.start.y = parseInt(event.clientY / lit);
-                lineDic.end.x = parseInt(event.clientX / lit);
-                lineDic.end.y = parseInt(event.clientY / lit);
-                lineDic.oldEnd.x = parseInt(event.clientX / lit);
-                lineDic.oldEnd.y = parseInt(event.clientY / lit);
-                fillARect(parseInt(event.clientX / lit), parseInt(event.clientY / lit));
+                lineDic.start.x = parseInt(evn.clientX / lit);
+                lineDic.start.y = parseInt(evn.clientY / lit);
+                lineDic.end.x = parseInt(evn.clientX / lit);
+                lineDic.end.y = parseInt(evn.clientY / lit);
+                lineDic.oldEnd.x = parseInt(evn.clientX / lit);
+                lineDic.oldEnd.y = parseInt(evn.clientY / lit);
+                fillARect(parseInt(evn.clientX / lit), parseInt(evn.clientY / lit));
             },
-            onmousemoveLine :function () {
+            onmousemoveLine :function (evn) {
                 if (draw) {
-                    lineDic.end.x = parseInt(event.clientX / lit);
-                    lineDic.end.y = parseInt(event.clientY / lit);
+                    lineDic.end.x = parseInt(evn.clientX / lit);
+                    lineDic.end.y = parseInt(evn.clientY / lit);
                     info.style.visibility = "visible";
                     info.innerHTML = exDic.makeTable(
                             info.tableLeft,
@@ -601,15 +601,15 @@ function onload_(){
                                 lineDic.end.y
                             ]
                      );
-                    if (event.clientY + 120 > height) {
-                        info.style.top = event.clientY -80 + "px";
+                    if (evn.clientY + 120 > height) {
+                        info.style.top = evn.clientY -80 + "px";
                     } else {
-                        info.style.top = event.clientY + 10 + "px";
+                        info.style.top = evn.clientY + 10 + "px";
                     }
-                    if (event.clientX + 90 > width) {
-                        info.style.left = event.clientX - 80 + "px";
+                    if (evn.clientX + 90 > width) {
+                        info.style.left = evn.clientX - 80 + "px";
                     } else {
-                        info.style.left = event.clientX + 10 + "px";
+                        info.style.left = evn.clientX + 10 + "px";
                     }
                     Bresenham.line.lineMoveHelp();
                     btn.style.zIndex = -1;
@@ -662,12 +662,12 @@ function onload_(){
         };
         //画圆弧鼠标事件
         var drawCircleEvent = {
-            onmousedownCircle: function () {
+            onmousedownCircle: function (evn) {
                 //if (circleDic.next) {
                 //    circleDic.next = false;
                 //} else {
-                    circleDic.o.x = parseInt(event.clientX / lit);
-                    circleDic.o.y = parseInt(event.clientY / lit);
+                    circleDic.o.x = parseInt(evn.clientX / lit);
+                    circleDic.o.y = parseInt(evn.clientY / lit);
                     circleDic.o.r = 0;
                     circleDic.o.or = 0;
                     circleDic.next = true;
@@ -677,10 +677,10 @@ function onload_(){
                 //}
                 draw = true;
             },
-            onmousemoveCircle: function () {
+            onmousemoveCircle: function (evn) {
                 if (draw) {
                     //if (circleDic.next) {
-                        drawCircleEventHelp.rHelp(event);
+                        drawCircleEventHelp.rHelp(evn);
                         Bresenham.circle.circleRMoveHelp();
                         this.somethingBindding = drawCircleEventHelp.r_and_o_EndFunction;
                         info.tableRight = [
@@ -691,20 +691,20 @@ function onload_(){
                         ];
                         info.innerHTML = exDic.makeTable(info.tableLeft,info.tableRight);
                         info.style.visibility = "visible";
-                        if (event.clientY + 120 > height) {
-                            info.style.top = event.clientY - 80 + "px";
+                        if (evn.clientY + 120 > height) {
+                            info.style.top = evn.clientY - 80 + "px";
                         } else {
-                            info.style.top = event.clientY + 10 + "px";
+                            info.style.top = evn.clientY + 10 + "px";
                         }
-                        if (event.clientX + 90 > width) {
-                            info.style.left = event.clientX - 80 + "px";
+                        if (evn.clientX + 90 > width) {
+                            info.style.left = evn.clientX - 80 + "px";
                         } else {
-                            info.style.left = event.clientX + 10 + "px";
+                            info.style.left = evn.clientX + 10 + "px";
                         }
                         btn.style.zIndex = -1;
                     //} else {
                     //  this.somethingBindding = drawCircleEventHelp.angleEndFunction;
-                    //  drawCircleEventHelp.angleHelp(event);
+                    //  drawCircleEventHelp.angleHelp(evn);
                     //}
                 }
             },

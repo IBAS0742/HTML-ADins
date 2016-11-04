@@ -29,9 +29,11 @@ var TipAlert = (function () {
             time_ = 3;
         }
         if (className) {
-			div.classList.forEach(function(i){
-				div.classList.remove(i);
-			});
+			if (div.classList.length) {
+				div.classList.forEach(function(i){
+					div.classList.remove(i);
+				});
+			}
 			if (className instanceof Array) {
 				className.forEach(function(i){
 					div.classList.add(i);
