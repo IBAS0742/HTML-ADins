@@ -3,6 +3,7 @@ var TipAlert = (function () {
 	var tmpDiv = document.createElement("div");
 	var added = false;
 	var content_;
+	var queue = [];
 	var setContent = function(content) {
 		if (content) {
 			content_ = content.toString();

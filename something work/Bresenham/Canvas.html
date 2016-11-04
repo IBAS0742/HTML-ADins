@@ -36,6 +36,7 @@
                 border-radius: 30px;
                 outline: none;
                 width:100%;
+                text-align: center;
             }
             td {
                 width : 60px;
@@ -80,6 +81,26 @@
                 visibility : hidden;
                 cursor: crosshair;
            }
+           .percDiv{
+                visibility: hidden;
+                position:absolute;
+               z-index: 2;
+           }
+           .precDic_c {
+               position : absolute;
+               width : 10%;
+               height : 10%;
+               left : 40%;
+               top : 20%;
+           }
+           .input_{
+               border: 3px solid brown;
+               border-radius: 10px;
+               padding: 5px;
+               font-size: large;
+               width: 200%;
+               outline: none;
+           }
         </style>
     </head>
     <body>
@@ -95,27 +116,41 @@
                 <tbody>
                     <tr>
                         <td colspan="2">
-                            <center><button onclick="Canvas_Tool.clearAll()">Clear All</button></center>
+                            <button onclick="Canvas_Tool.clearAll()">Clear All</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <center><button onclick="Canvas_Tool.raiseGrid()">+</button></center>
+                            <button onclick="Canvas_Tool.raiseGrid()">+</button>
                         </td>
                         <td>
-                            <center><button onclick="Canvas_Tool.downGrid()">-</button></center>
+                            <button onclick="Canvas_Tool.downGrid()">-</button>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <center><button onclick="bindingToggle(this)">Circle</button></center>
+                            <button onclick="bindingToggle(this)">Circle</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button onclick="exDic.showTip();">Show Tip</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="info" id="info">
-            
+        </div>
+        <div class = "percDiv" id = "perDiv">
+            <div class = "precDic_c">
+                <input class="input_" type = "text" value = "" placeholder="Input a list of number"
+                       id = "input_"
+                       onclick="TipAlert.apply('Input a list of number\nAnd sum of them is 1\nSplit by comma(,)');"/>
+                <br/><br/>
+                <button style = "width : 200%;"
+                        onclick = "exDic.enFn(document.getElementById('input_').value);perDiv.style.visibility = 'hidden';">OK</button>
+            </div>
         </div>
     </body>
 </html>
