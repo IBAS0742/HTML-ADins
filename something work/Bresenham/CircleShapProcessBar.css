@@ -1,0 +1,84 @@
+.csp-main {
+    width : 100px;
+    height : 100px;
+    border : 1px solid red;
+}
+.csp-out{
+    width : 100%;
+    height : 100%;
+    position : relative;
+}
+.csp-litoutout {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+.csp-litout{
+    width : 200%;
+    height : 100%;
+    position : absolute;
+    /*transform : rotate(50deg);*/	/*旋转这里*/
+}
+.csp-litout-left{
+    left : 0;
+}
+.csp-litout-right{
+    right : 0;
+}
+.csp-left {
+    overflow : hidden;
+    position : relative;
+    float : left;
+    left : 0;
+    width : 50%;
+    height : 100%;
+}
+.csp-right {
+    overflow : hidden;
+    position : relative;
+    float : right;
+    right : 0;
+    width : 50%;
+    height : 100%;
+}
+.csp-circle {
+    position : absolute;
+    width : 100%;               /*根据边框的宽度修改，边框为25%（a）时，这里是100%(b)，转换为b = 4 * （0.5 - a）*/
+    height : 50%;               /*b = width / 2*/
+    top : 0;
+    border-radius : 100%;
+    border-style : solid;
+    border-width : 25px;        /*这里为总的百分之25，但是不能写百分数*/
+}
+.csp-circle-right {
+    right : 0;
+}
+.csp-circle-left {
+    left : 0;
+}
+.csp-leave-left {
+    clip : rect(0px, 50px, 100px, 0px);     /*上 右 下 左*/
+}
+.csp-leave-right {
+    clip : rect(0px, 100px, 100px, 50px);   /*上 右 下 左*/
+}
+.csp-mark {
+    border-color : #12a;
+}
+.csp-funlit {
+    width : 100%;
+    height : 100%;
+    position : absolute;
+    left : 0;
+    top : 0;
+}
+.csp-fun {
+    position : absolute;
+    border-style : solid;
+    border-color : #aad;
+    border-width : 25px;    /*50% - 边框大小（此时为25%）*/
+    border-radius : 100%;
+    top : 25%;              /*和边框的大小一致*/
+    left : 25%;             /*和边框的大小一致*/
+}

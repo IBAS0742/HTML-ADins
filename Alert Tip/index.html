@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<meta charset = "UTF-8"/>
+		<link href = "TipAlert.css" rel = "styleSheet" />
+		<script src = "TipAlert.js"></script>
+		<style>
+			.font {
+				color : aqua;
+			}
+			.border {
+				border : 1px solid blue;
+				border-radius : 20px;
+			}
+			.bg {
+				background-color : #adc;
+			}
+			table {
+				border : 1px solid black;
+			}
+			td {
+				border : 2px solid gray;
+				padding : 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<p>
+				用法(Usage):
+				<h3>
+					首先引用两个文件(Firstly , import two file)<br/>
+					&lt;link href = "TipAlert.css" rel = "styleSheet" /&gt;
+					<br/>
+					&lt;script src = "TipAlert.js"&gt;&lt;/script&gt;
+					<br/>
+					<br/>
+					然后调用其中的TipAlert.apply方法即可，该方法有以下参数：<br/>
+					(Secondly , call the method TipAlert.apply , and the param show as follow :)
+					<table>
+						<thead>
+							<tr>
+								<td>名称(Name)</td>
+								<td>作用(Statement)</td>
+								<td>必填(Required)</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>content(string)</td>
+								<td>显示的内容(something will show)</td>
+								<td>否(No)</td>
+							</tr>
+							<tr>
+								<td>time_(number)</td>
+								<td>显示时间(Showing time)</td>
+								<td>否(No)</td>
+							</tr>
+							<tr>
+								<td>className(string or array)</td>
+								<td>引用样式名称(the class Name)</td>
+								<td>否(No)</td>
+							</tr>
+							<tr>
+								<td>str</td>
+								<td>承载ID(put content Element's Id)</td>
+								<td>否(No)</td>
+							</tr>
+						</tbody>
+					</table>
+					另外有一个方法 setContent ，用于设置默认显示内容，这样调用apply是就可以不用传入内容参数。
+				</h3>
+			</p>
+		</div>
+		<input type = "text" value = "Hello" id = "inp"/>
+		<button onclick = "TipAlert.apply(document.getElementById('inp').value,1,['BG','FONT','FONT'])">TEST</button>
+	</body>
+</html>

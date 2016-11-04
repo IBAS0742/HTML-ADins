@@ -1,0 +1,182 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<link href = "CircleShapProcessBar.css" rel = "styleSheet" />
+		<script src = "CircleShapProcessBar.js"></script>
+		<style>
+			table {
+				border : 1px solid black;
+			}
+			td {
+				border : 1px solid gray;
+				padding : 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id = "csp" width = "100" height = "200" process = "0" barColor = "rgb(154, 232, 255)"
+		barWidth = "0.2" funColor = "#ad5"
+		>
+		</div>
+		<div>
+			<h3>
+				用法，定义一个DIV，然后调用circleShapProcessBar.Instance(#id);
+			</h3><br/>
+			<h3>
+				div 中可以有6个属性
+				<table>
+					<thead>
+						<tr>
+							<td>属性名称(Prototype Name)</td>
+							<td>说明(Statement)</td>
+							<td>对应函数(Function)</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								width
+							</td>
+							<td>
+								主体宽度(the main width)
+							</td>
+							<td>
+								SetpbSize
+							</td>
+						</tr>
+						<tr>
+							<td>
+								height
+							</td>
+							<td>
+								主体高度(the main height)
+							</td>
+							<td>
+								SetpbSize
+							</td>
+						</tr>
+						<tr>
+							<td>
+								process
+							</td>
+							<td>
+								进度条百分比（小数表示）(percent of the process bar)
+							</td>
+							<td>
+								SetProcess
+							</td>
+						</tr>
+						<tr>
+							<td>
+								barColor
+							</td>
+							<td>
+								进度条颜色 (process bar color)
+							</td>
+							<td>
+								SetBarColor
+							</td>
+						</tr>
+						<tr>
+							<td>
+								barWidth
+							</td>
+							<td>
+								进度条宽度 (process bar width)
+							</td>
+							<td>
+								SetpbWidth
+							</td>
+						</tr>
+						<tr>
+							<td>
+								funColor
+							</td>
+							<td>
+								功能按钮颜色 (function button color)
+							</td>
+							<td>
+								SetFunColor
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</h3><br/>
+			<h3>
+				可以通过调用对应的函数进行设置，其中主体的高度和宽度是一致的。
+			</h3><br/>
+			<h3>
+				其他事件和属性
+				<table>
+					<thead>
+						<tr>
+							<td>属性/方法名称(prototype/method name)</td>
+							<td>说明(statement)</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2">属性(Prototype)</td>
+						</tr>
+						<tr>
+							<td>id</td>
+							<td>主体DIV的id(the id of the main div)</td>
+						</tr>
+						<tr>
+							<td>ele</td>
+							<td>主体div元素(the main div)</td>
+						</tr>
+						<tr>
+							<td>length</td>
+							<td>主体div的长和宽(the width and height of the main div)</td>
+						</tr>
+						<tr>
+							<td>mark</td>
+							<td>进度条部分(part of the process bar)</td>
+						</tr>
+						<tr>
+							<td>circle</td>
+							<td>隐藏进度条部分(part of the hidden)</td>
+						</tr>
+						<tr>
+							<td>rotate</td>
+							<td>负责旋转部分（part of the rotate）</td>
+						</tr>
+						<tr>
+							<td>fun</td>
+							<td>功能按键(function button)</td>
+						</tr>
+						<tr>
+							<td colspan="2">函数(Function)</td>
+						</tr>
+						<tr>
+							<td>Invoke</td>
+							<td>用于初始化所有信息(use for initial all the information)</td>
+						</tr>
+						<tr>
+							<td>BindingFun</td>
+							<td>绑定动能按钮的点击事件(binding the click Event of the function button)</td>
+						</tr>
+					</tbody>
+				</table>
+			</h3>
+		</div>
+		<script>
+			var k;
+			window.onload = function(){
+				k = circleShapProcessBar.Instance("csp");
+				var pro = 0;
+				var id = setInterval(function(){
+					if (pro > 1) {
+						console.log(pro);
+						clearInterval(id);
+						k.SetProcess(1);
+					} else {
+						pro += 0.01
+						k.SetProcess(pro);
+					}
+				},100);
+			}
+		</script>
+	</body>
+</html>

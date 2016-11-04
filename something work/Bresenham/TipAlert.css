@@ -1,0 +1,57 @@
+﻿
+.ta-TipAlert {
+    position : absolute;
+    top : 10%;
+    left : 10%;
+    width : 80%;
+    padding:5px;
+    font-size:150%;
+	opacity : 0;
+	text-align: -webkit-center;
+	text-align: -moz-center;
+	text-align: -o-center;
+	text-align: -ms-center;
+	text-align: center;
+}
+
+
+@-o-keyframes ta-dispear {
+    0% {
+        top : 10%;
+        opacity : 1;
+    }
+    100% {
+        top : 5%;
+        opacity : 0;
+    }
+}
+@-webkit-keyframes ta-dispear {
+    0% {
+        top : 10%;
+        opacity : 1;
+    }
+    100% {
+        top : 5%;
+        opacity : 0;
+    }
+}
+@-moz-keyframes ta-dispear {
+    0% {
+        top : 10%;
+        opacity : 1;
+    }
+    100% {
+        top : 5%;
+        opacity : 0;
+    }
+}
+@keyframes ta-dispear{
+    0% {
+        top : 10%;
+        opacity : 1;
+    }
+    100% {
+        top : 5%;
+        opacity : 0;
+    }
+}

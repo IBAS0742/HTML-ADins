@@ -1,156 +1,171 @@
-<html>
-	<head>
-	<meta charset = "UTF-8"/>
-		<style>
-			* {
-				border : none;
-				padding : 0px;
-				margin : 0px;
-			}
-			body {
-				background : #fdfad2;
-			}
-			.out {
-				float : left;
-				width : 100px;
-				height : 100px;
-			}
-			.lf {
-				overflow : hidden;
-				width : 50%;
-				height : 100%;
-				float : left;
-			}
-			.left {
-				background : #aaa;
-			}
-			.right {
-				background : #bbb;
-			}
-			.circle {
-				position : relative;
-				border:25px solid red; 
-				top : 0px;
-				width : 100%;
-				height : 50%;
-				border-radius: 50%;
-			}
-			.circleR {
-				right : 100%;
-				transform : rotate(45deg);
-			}
-			.circleL {
-				left : 0%;
-				transform : rotate(45deg);
-			}
-			.left-mark {
-				width : 100%;
-				height : 200%;
-				top : -50%;
-				left : 50%;
-				position : absolute;
-				background : #aaa;
-			}
-			.right-mark {
-				width : 100%;
-				height : 200%;
-				top : -50%;
-				left : -50%;
-				position : absolute;
-				background : #bbb;
-			}
-			.statement {
-				border : 2px solid;
-				border-radius : 20px;
-				margin : 5px;
-				padding : 5px;
-			}
-			.import {
-				color : red;
-			}
-			.oneT {
-				border : 3px solid #aab;
-				padding : 5px;
-				border-radius : 10px;
-				margin : 2px;
-			}
-		</style>
-	</head>
-	<body>
-		<div>
-			<div class = "out">
-				<div class = "lf left">
-					<div class = "circle circleL">
-						<div class = "left-mark"></div>
-					</div>
-				</div>
-				<div class = "lf right">
-					<div class = "circle circleR">
-						<div class = "right-mark"></div>
-					</div>
-				</div>
-			</div>
-			<div>
-			</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>csp</title>
+    <style>
+		body {
+			background : #fdfad2;
+		}
+        * {
+            border : none;
+            margin : 0;
+            padding : 0;
+        }
+        .main {
+            position : absolute ;
+            left : 20px;
+            top : 20px;
+            width : 100px;
+            height : 100px;
+            border : 1px solid red;
+        }
+        .out{
+            width : 100%;
+            height : 100%;
+            position : relative;
+        }
+        .litoutout {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+        }
+        .litout{
+            width : 200%;
+            height : 100%;
+            position : absolute;
+            transform : rotate(50deg);
+        }
+        .litoutleft{
+            left : 0;
+        }
+        .litoutright{
+            right : 0;
+        }
+        .left {
+            overflow : hidden;
+            position : relative;
+            float : left;
+            left : 0;
+            width : 50%;
+            height : 100%;
+        }
+        .right {
+            overflow : hidden;
+            position : relative;
+            float : right;
+            right : 0;
+            width : 50%;
+            height : 100%;
+        }
+        .circle {
+            position : absolute;
+            width : 100%;
+            height : 50%;
+            top : 0;
+            border-radius : 100%;
+            border-style : solid;
+            border-width : 25px;
+        }
+        .circleright {
+            right : 0;
+        }
+        .circleleft {
+            left : 0;
+        }
+        .leaveleft {
+            clip : rect(0px, 50px, 100px, 0px);
+        }
+        .leaveright {
+            clip : rect(0px, 100px, 100px, 50px);
+        }
+        .mark {
+            border-color : #12a;
+        }
+        .funlit {
+            width : 100%;
+            height : 100%;
+            position : absolute;
+            left : 0;
+            top : 0;
+        }
+        .fun {
+            position : absolute;
+            border : 25px solid #aad;
+            border-radius : 100%;
+            top : 25%;
+            left : 25%;
+        }
+    </style>
+	<style>	
+		.statement {
+			border : 2px solid;
+			border-radius : 20px;
+			margin : 5px;
+			padding : 5px;
+		}
+		.import {
+			color : red;
+		}
+		.oneT {
+			border : 3px solid #aab;
+			padding : 5px;
+			border-radius : 10px;
+			margin : 2px;
+		}
+	</style>
+</head>
+<body>
+    <div class = "main">
+        <div class="out">
+            <div class="litoutout litoutleft">
+                <div class="litout litoutleft">
+                    <div class="left">
+                        <div class="circle circleleft leaveleft">
+							
+                        </div>
+                        <div class="circle circleleft leaveright mark">
+							
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="litoutout litoutright">
+                <div class="litout litoutright">
+                    <div class="right">
+                        <div class="circle circleright leaveright">
+							
+                        </div>
+                        <div class="circle circleright leaveleft mark">
+							
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="funlit">
+                <div class="fun">
+					
+                </div>
+            </div>
+        </div>
+    </div>
+	<div style = "position : absolute;top : 125px;">
+		<div style = "float : left;padding : 10px;">
+			<p class = "margin : 2px;">
+				<h2><center>原理</center></h2>
+				<h4>
+					将进度条分为左右两部分，然后设置<span class = "import">溢出隐藏</span>，对左部分设置宽度大小为主体的一半，为其添加一个子DIVa，设置大小为左部分的宽的两倍，高相等。在子 DIVa 中添加两个同样大小的DIVc、DIVd，大小与子 DIVa 一致，其中一个为特定颜色，一个为透明。<span class = "import">然后两部分(Divc、DIVd)分别切为宽度的一半，并且只留下DIVc的左边和DIVd的右边。</span>右边进度条同样设计。
+				</h4>
+			</p>
+		<div style = "float : left;padding : 10px;">
+			<p class = "margin : 2px;">
+				<h2><center>Explain</center></h2>
+				<h4>
+					Divide the process bar into two part , and then set <span class = "import"> overflow prototype as hidden.</span>For the left part , set the width as the half size of the main part , and then add a child DIVa for it. In the DIVa , two child DIV (DIVc and DIVd) are added in it , and set the one is some color and another one is transparent .<span class = "import">Each child DIV (DIVc and DIVd) cut in half , and the DIVc leave the left part and the DIVd leave the right part .</span>The right part process bar is do the same program .
+				</h4>
+			</p>
 		</div>
-		<br/>
-		<br/>
-		<div style = "position:absolute;top : 120px;padding : 10px;">
-		<p class = "margin : 2px;">
-			<h2><center>原理</center></h2>
-			<h4>
-				1.将圆环分为左右或者上下两部分，这里分为了左右两部分，单独解释左部分即可。
-			</h4>
-			<h4>
-				2.带out样式的div为主体DIV，以下的带lf的div分别为左右部分。
-				<div class = "statement">
-					<div class = "oneT">
-						out 样式只是简单的配置了主体的大小及样式，这将决定主体的位置和大小，因为以下都以百分比来表示
-					</div>
-					<div class = "oneT">
-						lf 配置了两部分的大小，高固定是100%，宽为50%，<span class = "import">overflow 属性在这里必须设置为 hidden，意思为溢出部分隐藏。</span>
-					</div>
-				</div>
-			</h4>
-			<h4>
-				3.在左部分中添加一个DIV，并赋予两个样式 circle 和 circleL 。
-				<div class = "statement">
-					<div class = "oneT">
-						circle 中设定了 <span class = "import">position 为 relative</span>和 top 为 0px ，另外设置了<span class = "import">宽为100%高位50%，边框宽为25%，边框圆角50%。</span>
-						<div class = "oneT">
-							这里解释一下高宽以及边框高度三者设定的值，<br/>
-							1）在上一层中，lf样式中，宽为50%，高为100%，则这里的高为宽的两倍大小。
-							<br/>
-							2）所以这里宽为100%时正好与高的50%相等。
-							<br/>
-							3）因为高和宽都占了主体（最外层）的50%，所以这里剩下50%为空白，而空白正是要绘制的边框，这里边框25%正好将这个DIV填充为裕主体同样大小
-							<br/>
-							4）这里顺便提一下，因为这个DIV过大，它的父级DIV无法容纳将导致溢出，<span class = "import">overflow 为 hidden</span>这时就用到了。
-						</div>
-					</div>
-					<div class = "oneT">
-						circleL 只是将该 DIV 靠边（这里为靠左边）。
-						<br/>
-						<span class = "import">同时，这里设置旋转角度就能设定进度条。</span>
-					</div>
-				</div>
-			</h4>
-			<h4>
-				4.这里添加一个 DIV ，作用就是将环形部分挡住，然后就会出项进度条效果。这个 DIV 的样式为 left-mark 。
-				<div class = "statement">
-					left-mark 中有六个属性，分别为宽100%，高200%，高-50%，左50%，绝对布局和背景色
-					<div class = "oneT">
-						由于该 DIV 的父级中高和宽占主体的50%，为了绘制一个占主体高为100%宽为50%，足以将环形部分挡住的 DIV ，这里宽取100%高取200%就足够了。
-					</div>
-					<div class = "oneT">
-						另外是其父级 DIV 在主体的正中间则如果不设置位置，该 DIV 会放在在父级 DIV 的左上角，即正中间，所以应该往上挪其父级50%高度的距离，同时为了挡住溢出隐藏部分，必须向左移动其父级 DIV 的50%的距离。
-					</div>
-					<div class = "oneT">
-						这里为绝对布局就不再讲了，自己体会，最后背景为主体或者 lf 样式的颜色即可。
-					</div>
-				</div>
-			</h4>
-		</p>
-		</div>
-	</body>
+	</div>
+</body>
 </html>

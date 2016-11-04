@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <script src="CircleShapProcessBar.js"></script>
+        <link href="CircleShapProcessBar.css" rel="styleSheet">
+        <script src="TipAlert.js"></script>
+        <link href="TipAlert.css" rel="styleSheet">
+        <script src="Canvas.js"></script>
+        <style>
+			ti {
+				border-radius : 20px;
+				background : #add;
+				z-index = 10;
+				color : #1ad;
+			}
+            * {
+                border:none;
+                margin:0px;
+                padding:0px;
+            }
+            canvas {
+                position:absolute;
+                z-index : 1;
+                cursor: crosshair;
+            }
+            div.btn{
+                position : absolute;
+                left : 10px;
+                top : 10px;
+                z-index : 1;
+            }
+            button{
+                padding: 10px;
+                background-color: rgba(196, 251, 202, 0.38);
+                font-size: 20px;
+                border-radius: 30px;
+                outline: none;
+                width:100%;
+            }
+            td {
+                width : 60px;
+            }
+            div.info{
+                position : absolute;
+                font-size: larger;
+                z-index : -1;
+                visibility : hidden;
+            }
+           .canvas_cover {
+                position : absolute;
+            }
+            #canvas_cover_3 {
+               position : absolute;
+                background-color:deepskyblue;
+               top : 0px;
+               left : 0px;
+            }
+            #canvas_cover_1 {
+               position : absolute;
+                background-color:rgba(147, 255, 220, 0.25);
+               top : 0px;
+               left : 0px;
+           }
+           #canvas_cover_2{
+               position : absolute;
+               background-color:rgba(174, 159, 255, 0.23);
+               top : 0px;
+               left : 0px;
+           }
+           #div_corver{
+               position : absolute;
+               top : 0px;
+               left : 0px;
+               z-index : -1;
+               cursor: crosshair;
+           }
+           #div_angle {
+                position : fixed;
+                z-index : 1;
+                visibility : hidden;
+                cursor: crosshair;
+           }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas_" width="800" height="800"></canvas>
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <div id="div_angle">
+            <div id="div_corver" width = "100" height = "200" process = "0" barColor = "rgb(154, 232, 255)"
+                 barWidth = "0.2" funColor = "#ad5">
+            </div>
+        </div>
+        <div class="btn" id="btn">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <center><button onclick="Canvas_Tool.clearAll()">Clear All</button></center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center><button onclick="Canvas_Tool.raiseGrid()">+</button></center>
+                        </td>
+                        <td>
+                            <center><button onclick="Canvas_Tool.downGrid()">-</button></center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <center><button onclick="bindingToggle(this)">Circle</button></center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="info" id="info">
+            
+        </div>
+    </body>
+</html>
