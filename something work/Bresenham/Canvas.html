@@ -1,12 +1,34 @@
 <html>
     <head>
         <meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
         <script src="CircleShapProcessBar.js"></script>
         <link href="CircleShapProcessBar.css" rel="styleSheet">
         <script src="TipAlert.js"></script>
         <link href="TipAlert.css" rel="styleSheet">
+        <script src="mouseEvent.js"></script>
         <script src="Canvas.js"></script>
         <style>
+			.h1 {
+				font-size : 30px;
+			}
+			.h2 {
+				font-size : 20px;
+				border: 1px solid blueviolet;
+				border-radius: 9px;
+				padding: 2px;
+			}
+			@media all and (max-width: 1200px) {
+				.h1 {
+					font-size : 17px;
+				}
+				.h2 {
+					font-size : 12px;
+					border: 1px solid blueviolet;
+					border-radius: 9px;
+					padding: 2px;
+				}
+			}
 			ti {
 				border-radius : 20px;
 				background : #add;
@@ -101,9 +123,62 @@
                width: 200%;
                outline: none;
            }
+		   .btn_ {
+				width : 200%;
+		   }
+			@media all and (max-width: 1200px) {
+				.input_ {
+				   border: 3px solid brown;
+				   border-radius: 10px;
+				   padding: 5px;
+				   font-size: large;
+				   outline: none;
+				   position : fixed;
+				   left : 10%;
+				   width : 80%;
+				   top : 20%;
+				}
+				.btn_ {
+					position : fixed;
+					left : 30%;
+					width : 40%;
+					top : 30%;
+				}
+			}
+		   #statement {
+				z-index : 2;
+				background : rgba(3, 169, 244, 0.29);
+				display : none;
+				height : 100%;
+				width : 100%;
+				top : 0px;
+				left : 0px;
+		   }
+		   #f {
+				//padding-left: 180px;
+				width : auto;
+				height : 100%;
+				position : absolute;
+				top : 0;
+				left : 180px;
+		   }
+		   #change {
+				float : left;
+		   }
         </style>
     </head>
     <body>
+		<div id = "statement">
+			<div id = "f">
+				<p class = "h1">轻碰继续...</p><br/>
+				<p class = "h1">Clear All : 清除画面上所有的绘制图案</p><br/>
+				<p class = "h1"> + / - : 缩放栅格</p><br/>
+				<p class = "h1">Show Tip : 展现提示信息（有BUG）</p><br/>
+				<div id = "change">
+					
+				</div><br/>
+			</div>
+		</div>
         <canvas id="canvas_" width="800" height="800"></canvas>
         <canvas id="canvas" width="800" height="800"></canvas>
         <div id="div_angle">
@@ -144,13 +219,17 @@
         </div>
         <div class = "percDiv" id = "perDiv">
             <div class = "precDic_c">
-                <input class="input_" type = "text" value = "" placeholder="Input a list of number"
-                       id = "input_"
+                <input class="input_" type = "text" value = "0.1,0.2,0.3,0.4" placeholder="Input a list of number"
+                       id = "input_" 
                        onclick="TipAlert.apply('Input a list of number\nAnd sum of them is 1\nSplit by comma(,)');"/>
                 <br/><br/>
-                <button style = "width : 200%;"
+                <button class = "btn_"
                         onclick = "exDic.enFn(document.getElementById('input_').value);perDiv.style.visibility = 'hidden';">OK</button>
             </div>
         </div>
+		<script>
+			document.ontouchmove = function(e){ }; 
+			document.documentElement.style.webkitTouchCallout = "none"; 
+		</script>
     </body>
 </html>

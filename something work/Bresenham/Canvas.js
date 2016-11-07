@@ -13,7 +13,11 @@ var canvas,          //前景
     },                //
     csp,              //csp对象
     div_angle,        //承载csp对象主元素的div
-    perDiv            //扇形的角度输入
+    perDiv,           //扇形的角度输入
+	me = mouseEvent
+		.getAllMouseEvent(),
+	statement,
+	change
     ;
 
 //div_angle.method = 0 旋转主体 1 角度选择  2 停止旋转
@@ -32,6 +36,8 @@ window.onload = function () {
     btn = document.getElementById("btn");                           //初始化。。。
     div_angle = document.getElementById("div_angle");               //初始化。。。
     perDiv = document.getElementById("perDiv");                     //初始化。。。
+    statement = document.getElementById("statement");               //初始化。。。
+    change = document.getElementById("change");        		        //初始化。。。
     csp = CircleShapProcess();                                      //创建一个csp对象
     angleSelector = csp.Instance("div_corver");                     //初始化并创建一个csp对象示例
     canvas.width = document.body.clientWidth - deta;                //初始化。。。
@@ -53,14 +59,22 @@ window.onload = function () {
     Canvas_Tool.refleshGrid();                                      //
     Canvas_Tool.bindingDrawToggle();                                //
     angleSelector.BindingFun(endEvent.endEventCircle);
-    div_angle.onmousemove = angleSelectorEvent.mousemove;
-    div_angle.onmousedown = angleSelectorEvent.mousedown;
+	
+	mouseEvent.binding(div_angle,"move",angleSelectorEvent.mousemove,true);
+	//div_angle[me["move"]] = angleSelectorEvent.mousemove;
+    //div_angle.onmousemove = angleSelectorEvent.mousemove;
+	mouseEvent.binding(div_angle,"down",angleSelectorEvent.mousedown,true);
+	//div_angle[me["down"]] = angleSelectorEvent.mousedown;
+    //div_angle.onmousedown = angleSelectorEvent.mousedown;
     div_angle.method = 2;
     div_angle.loc = {x:0,y:0};
     div_angle.p = {x:0,y:0};
     div_angle.rotate = 0;
     div_angle.deg = 0;
     div_angle.tmplen = 0;
+	statement.onclick = function(){
+		this.style.display = "none";
+	}
 };
 
 var exDic = {
@@ -70,12 +84,29 @@ var exDic = {
         "类似直线的方法先绘制一个圆，然后单击屏幕（非绿色圆），按提示操作。",
         "类似直线的方法绘制一个圆，然后输入n个和为1的数字，圆将被分割为n部分。"
     ],
+	ctip : [
+		"<p class = 'h1'>Circle : 切换到下一个功能（Circle为画弧）</p>" + 
+		"<p class = 'h2'>当前功能为画线，<br>操作方法：点下屏幕上一点，移动到合适位置，放开即可。</p>",
+		"<p class = 'h1'>FillArc : 切换到下一个功能（FillArc为画饼分图）</p>" + 
+		"<p class = 'h2'>当前功能为画弧，<br>操作方法：点下屏幕上一点，移动到合适位置，放开<br/>" + 
+		"再次点击屏幕上一点，移动到合适位置时放开<br/>" + 
+		"再次点击屏幕上一点，移动到合适位置时放开<br/>" + 
+		"这时可以看到蓝色圆弧覆盖住绘制圆弧的一部分，这部分将不显示出来<br/>" + 
+		"如果绘制完成，点击绿色按钮完成操作，否则继续以上操作。</p>",
+		"<p class = 'h1'>Line : 切换到下一个功能（Line为画线）</p>" + 
+		"<p class = 'h2'>当前功能为画饼分图，<br>操作方法：先绘制一个圆，填写n个数字，表示将圆分割为n部分<br/>" + 
+		"同时，每一个数字代表分割部分占的大小<br/>" + 
+		"<span style = 'color:red;'>只能用_逗号_将数字分开</span>" + 
+		"例如“0.1,0.2,0.3,0.4”代表将圆分割为四部分，分别占0.1到0.4</p>"
+	],
     curTip : 0,
     showTipFirst : function(n){
         this.curTip = n;
         if (this.firstUsing[n]) {
             this.firstUsing[n] = false;
-            TipAlert.apply(this.tip[n],10);
+            //TipAlert.apply(this.tip[n],10);
+			statement.style.display = "block";
+			change.innerHTML = this.ctip[n];
         }
     },
     showTip : function(){
@@ -162,13 +193,18 @@ var endEvent = {
     //绘制弧形的结束事件
     endEventCircle : function(evn){
         var angle = exDic.calcFTAngle();
+		loc = mouseEvent.getLocation(evn);
         console.log("rotate : " + div_angle.rotate + "\tdeg : " + div_angle.deg);
         console.log("beginDeg : " + angle[0] + "\tendDeg : " + angle[1]);
         exDic.enFn(angle[0],angle[1]);
         div_angle.method = 2;
         div_angle.style.visibility = "hidden";
+        div_angle.loc.x = loc[0];
+        div_angle.loc.y = loc[1];
+		/*
         div_angle.loc.x = evn.clientX;
         div_angle.loc.y = evn.clientY;
+		*/
         div_angle.rotate = 0;
         div_angle.deg = 0.8;
         div_angle.style.transform = "rotate(0deg)";
@@ -184,13 +220,16 @@ var angleSelectorEvent = {
 	tip : ['选择起始角度','选择跨越角度大小','选择完成'],
 	first : true,
     mousemove : function(evn){
+		loc = mouseEvent.getLocation(evn);
         if (div_angle.method == 0) {
-            var deg = exDic.calcAngle(evn.clientX,evn.clientY);
+            //var deg = exDic.calcAngle(evn.clientX,evn.clientY);
+			var deg = exDic.calcAngle(loc[0],loc[1]);
             div_angle.rotate += deg;
             div_angle.rotate %= 360;
             angleSelector.ele.style.transform = "rotate(" + div_angle.rotate + "deg)";
         } else if (div_angle.method == 1) {
-            var deg = exDic.calcAngle(evn.clientX,evn.clientY);
+            //var deg = exDic.calcAngle(evn.clientX,evn.clientY);
+            var deg = exDic.calcAngle(loc[0],loc[1]);
             div_angle.deg -= deg / 360;
             while (div_angle.deg < 0) {
                 div_angle.deg += 1;
@@ -653,9 +692,15 @@ function onload_(){
         };
         ///////////////////////////////////以下为画直线事件//////////////////////////////////////////
         var drawLineBinding = function () {
-            canvas.onmousedown = drawLineEvent.onmousedownLine;
-            canvas.onmousemove = drawLineEvent.onmousemoveLine;
-            canvas.onmouseup = drawLineEvent.onmouseupLine;
+			mouseEvent.binding(canvas,"down",drawLineEvent.onmousedownLine,true);
+			//canvas[me["down"]] = drawLineEvent.onmousedownLine;
+            //canvas.onmousedown = drawLineEvent.onmousedownLine;
+			mouseEvent.binding(canvas,"move",drawLineEvent.onmousemoveLine,true);
+			//canvas[me["move"]] = drawLineEvent.onmousemoveLine;
+            //canvas.onmousemove = drawLineEvent.onmousemoveLine;
+			mouseEvent.binding(canvas,"up",drawLineEvent.onmouseupLine,true);
+			//canvas[me["up"]] = drawLineEvent.onmouseupLine;
+            //canvas.onmouseup = drawLineEvent.onmouseupLine;
             info.tableLeft = ["from X","from Y","to X","to Y"];
         };
         //画线鼠标事件
@@ -663,6 +708,15 @@ function onload_(){
             onmousedownLine: function(evn) {
                 //console.log(evn.clientX + "_" + evn.clientY);
                 draw = true;
+				loc = mouseEvent.getLocation(evn);
+                lineDic.start.x = parseInt(loc[0] / lit);
+                lineDic.start.y = parseInt(loc[1] / lit);
+                lineDic.end.x = parseInt(loc[0] / lit);
+                lineDic.end.y = parseInt(loc[1] / lit);
+                lineDic.oldEnd.x = parseInt(loc[0] / lit);
+                lineDic.oldEnd.y = parseInt(loc[1] / lit);
+                fillARect(parseInt(loc[0] / lit), parseInt(loc[1] / lit));
+				/*
                 lineDic.start.x = parseInt(evn.clientX / lit);
                 lineDic.start.y = parseInt(evn.clientY / lit);
                 lineDic.end.x = parseInt(evn.clientX / lit);
@@ -670,11 +724,17 @@ function onload_(){
                 lineDic.oldEnd.x = parseInt(evn.clientX / lit);
                 lineDic.oldEnd.y = parseInt(evn.clientY / lit);
                 fillARect(parseInt(evn.clientX / lit), parseInt(evn.clientY / lit));
+				*/
             },
             onmousemoveLine :function (evn) {
                 if (draw) {
+					loc = mouseEvent.getLocation(evn);
+                    lineDic.end.x = parseInt(loc[0] / lit);
+                    lineDic.end.y = parseInt(loc[1] / lit);
+					/*
                     lineDic.end.x = parseInt(evn.clientX / lit);
                     lineDic.end.y = parseInt(evn.clientY / lit);
+					*/
                     info.style.visibility = "visible";
                     info.innerHTML = extDic.makeTable(
                             info.tableLeft,
@@ -685,6 +745,17 @@ function onload_(){
                                 lineDic.end.y
                             ]
                      );
+                    if (loc[1] + 120 > height) {
+                        info.style.top = loc[1] -80 + "px";
+                    } else {
+                        info.style.top = loc[1] + 10 + "px";
+                    }
+                    if (loc[0] + 90 > width) {
+                        info.style.left = loc[0] - 80 + "px";
+                    } else {
+                        info.style.left = loc[0] + 10 + "px";
+                    }
+					 /*
                     if (evn.clientY + 120 > height) {
                         info.style.top = evn.clientY -80 + "px";
                     } else {
@@ -695,6 +766,7 @@ function onload_(){
                     } else {
                         info.style.left = evn.clientX + 10 + "px";
                     }
+					*/
                     Bresenham.line.lineMoveHelp();
                     btn.style.zIndex = -1;
                 }
@@ -717,9 +789,15 @@ function onload_(){
         ///////////////////////////////////以下为画圆弧事件//////////////////////////////////////////
         var drawCircleBinding = function () {
             other.endFunction = drawCircleEventHelp.r_and_o_EndFunction;
-            canvas.onmousedown = drawCircleEvent.onmousedownCircle;
-            canvas.onmousemove = drawCircleEvent.onmousemoveCircle;
-            canvas.onmouseup   = drawCircleEvent.onmouseupCircle;
+			mouseEvent.binding(canvas,"down",drawCircleEvent.onmousedownCircle,true);
+			//canvas[me["down"]] = drawCircleEvent.onmousedownCircle;
+            //canvas.onmousedown = drawCircleEvent.onmousedownCircle;
+			mouseEvent.binding(canvas,"move",drawCircleEvent.onmousemoveCircle,true);
+			//canvas[me["move"]] = drawCircleEvent.onmousemoveCircle;
+            //canvas.onmousemove = drawCircleEvent.onmousemoveCircle;
+			mouseEvent.binding(canvas,"up",drawCircleEvent.onmouseupCircle,true);
+			//canvas[me["up"]] = drawCircleEvent.onmouseupCircle;
+            //canvas.onmouseup   = drawCircleEvent.onmouseupCircle;
             extDic.tFn = function(angle){
                 info.tableRight[3] = angle[0] + "deg";
                 info.tableRight[4] = angle[1] + "deg";
@@ -746,9 +824,15 @@ function onload_(){
         };
         //画圆弧鼠标事件和扇形填充公用
         var drawCircleEvent = {
+			
             onmousedownCircle: function (evn) {
+				loc = mouseEvent.getLocation(evn);
+                circleDic.o.x = parseInt(loc[0] / lit);
+                circleDic.o.y = parseInt(loc[1] / lit);
+				/*
                 circleDic.o.x = parseInt(evn.clientX / lit);
                 circleDic.o.y = parseInt(evn.clientY / lit);
+				*/
                 circleDic.o.r = 0;
                 circleDic.o.or = 0;
                 circleDic.next = true;
@@ -761,6 +845,7 @@ function onload_(){
             },
             onmousemoveCircle: function (evn) {
                 if (draw) {
+					loc = mouseEvent.getLocation(evn);
                     drawCircleEventHelp.rHelp(evn);
                     Bresenham.circle.circleRMoveHelp();
                     this.somethingBindding = other.endFunction;
@@ -771,6 +856,17 @@ function onload_(){
                     ];
                     info.innerHTML = extDic.makeTable(info.tableLeft,info.tableRight);
                     info.style.visibility = "visible";
+                    if (loc[1] + 120 > height) {
+                        info.style.top = loc[1] - 80 + "px";
+                    } else {
+                        info.style.top = loc[1] + 10 + "px";
+                    }
+                    if (loc[0] + 90 > width) {
+                        info.style.left = loc[0]- 80 + "px";
+                    } else {
+                        info.style.left = loc[0] + 10 + "px";
+                    }
+					/*
                     if (evn.clientY + 120 > height) {
                         info.style.top = evn.clientY - 80 + "px";
                     } else {
@@ -781,6 +877,7 @@ function onload_(){
                     } else {
                         info.style.left = evn.clientX + 10 + "px";
                     }
+					*/
                 }
             },
             onmouseupCircle: function () {
@@ -795,10 +892,17 @@ function onload_(){
         };
         var drawCircleEventHelp = {
             rHelp: function (e) {
+				loc = mouseEvent.getLocation(e);
+                circleDic.r = parseInt(Math.sqrt(
+                                                    Math.pow(circleDic.o.x - parseInt(loc[0] / lit), 2) +
+                                                    Math.pow(circleDic.o.y - parseInt(loc[1] / lit), 2)
+                                                 ) + 0.5);
+												 /*
                 circleDic.r = parseInt(Math.sqrt(
                                                     Math.pow(circleDic.o.x - parseInt(e.clientX / lit), 2) +
                                                     Math.pow(circleDic.o.y - parseInt(e.clientY / lit), 2)
                                                  ) + 0.5);
+												 */
             },
             //绑定选择好圆心和半径后触发事件
             r_and_o_EndFunction: function (e) {
@@ -829,9 +933,15 @@ function onload_(){
         var drawFillArcBinding = function(){
             other.endFunction = fanShapedHelp.endFunction;
             Bresenham.circle.judgeFn = Bresenham.circle.judgeFnOne;
-            canvas.onmousedown = drawCircleEvent.onmousedownCircle;
-            canvas.onmousemove = drawCircleEvent.onmousemoveCircle;
-            canvas.onmouseup   = drawCircleEvent.onmouseupCircle;
+			mouseEvent.binding(canvas,"down",drawCircleEvent.onmousedownCircle,true);
+			//canvas[me["down"]] = drawCircleEvent.onmousedownCircle;
+            //canvas.onmousedown = drawCircleEvent.onmousedownCircle;
+			mouseEvent.binding(canvas,"move",drawCircleEvent.onmousemoveCircle,true);
+			//canvas[me["move"]] = drawCircleEvent.onmousemoveCircle;
+            //canvas.onmousemove = drawCircleEvent.onmousemoveCircle;
+			mouseEvent.binding(canvas,"up",drawCircleEvent.onmouseupCircle,true);
+			//canvas[me["up"]] = drawCircleEvent.onmouseupCircle;
+            //canvas.onmouseup   = drawCircleEvent.onmouseupCircle;
         };
         var fanShapedHelp = {
             endFunction : function(){
@@ -853,8 +963,9 @@ function onload_(){
                     var t = 0;
                     var ind = 1;
                     var r = circleDic.r;
+					var splitChar = (arrStr.indexOf(',')) == -1?'，':',';
                     if (arrStr) {
-                        arrStr.split(',')
+                        arrStr.split(splitChar)
                             .forEach(function(i,j){
                                 arr.push(parseFloat(i));
                         });

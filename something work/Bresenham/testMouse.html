@@ -1,0 +1,42 @@
+<html>
+	<head>
+        <script src="mouseEvent.js"></script>
+	</head>
+	<body>
+		<div style = "width : 100%;height : 50%;
+			border : 2px solid blue;" id = "div">
+		</div>
+		<div id = "result" style = "position : absolute;top : 0;left : 0;">
+		</div>
+		<script>
+			var div = document.getElementById("div");
+			var result = document.getElementById("result");
+			var arr = [];
+			function touch(event) {
+				var e = event || window.event;
+				arr.push(e.type + "_" + mouseEvent.getLocation(e).join("_"));
+				show();
+			}
+			window.onload = function(){
+				arr.push("start binding");
+				//show();
+				//div.addEventListener('touchstart', touch, false); 
+                //div.addEventListener('touchmove', touch, false); 
+                //div.addEventListener('touchend', touch, false); 
+				
+				mouseEvent.binding(div,"down",touch);
+				mouseEvent.binding(div,"up",touch);
+				mouseEvent.binding(div,"move",touch);
+				
+				arr.push("end binding");
+				//show();
+			}
+			function show() {
+				if (arr.length > 20) {
+					arr.shift();
+				}
+				result.innerText = arr.join("\n");
+			}
+		</script>
+	</body>
+</html>
