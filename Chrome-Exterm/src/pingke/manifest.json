@@ -1,0 +1,9 @@
+﻿    {
+      "name": "自动评课",
+      "manifest_version": 2,
+      "version": "1.0",
+	  "author":"IBAS",
+      "description": "自动评课",
+      "content_scripts": [{"matches": ["*://*/*"],"js": ["test.js"]}],
+      "permissions": ["*://*/*","tabs"]
+    }

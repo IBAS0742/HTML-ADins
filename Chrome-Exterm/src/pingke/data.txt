@@ -1,0 +1,3 @@
+var re = window.__fisData.get("WkInfo")
+
+window.reader.pageList[0].innerText
